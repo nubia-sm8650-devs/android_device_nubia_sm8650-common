@@ -17,6 +17,4 @@ android_app {
     optimize: {
         enabled: false,
     },
-
-    manifest: "AndroidManifest.xml",
 }
