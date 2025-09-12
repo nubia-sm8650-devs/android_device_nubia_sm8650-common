@@ -119,6 +119,10 @@ PRODUCT_PACKAGES += \
     init.qti.display_boot.sh \
     libgpu_tonemapper
 
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/configs/display_id_4630946566460097411.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630946566460097411.xml \
+    $(COMMON_PATH)/configs/display_id_4630947039571902851.xml:$(TARGET_COPY_OUT_VENDOR)/etc/displayconfig/display_id_4630947039571902851.xml
+
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey
