@@ -261,6 +261,9 @@ ro.telephony.default_network=26,26
 # SoC
 ro.soc.manufacturer=QTI
 
+# SSR
+persist.vendor.ssr.restart_level=ALL_ENABLE
+
 # USB
 sys.usb.mtp.batchcancel=1
 vendor.usb.controller=a600000.dwc3
