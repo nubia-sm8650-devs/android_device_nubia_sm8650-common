@@ -1,5 +1,5 @@
-binder_call(platform_app, hal_camera_default)
+binder_call(platform_app_all, hal_camera_default)
 
-allow platform_app hal_camera_transfer_service:service_manager find;
+allow platform_app_all hal_camera_transfer_service:service_manager find;
 
-get_prop(platform_app, vendor_zte_prop)
+get_prop(platform_app_all, vendor_zte_prop)
