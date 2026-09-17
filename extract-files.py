@@ -136,6 +136,15 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('libtinyxml2.so', 'libtinyxml2-v34.so'),
     'system/framework/WfdCommon.jar': blob_fixup()
         .apktool_patch('blob-patches/WfdCommon.patch'),
+    (
+        'system_ext/etc/seccomp_policy/tcmd.policy',
+        'vendor/etc/seccomp_policy/atfwd@2.0.policy',
+        'vendor/etc/seccomp_policy/c2audio.vendor.ext-arm64.policy',
+        'vendor/etc/seccomp_policy/codec2.vendor.ext-arm64.policy',
+        'vendor/etc/seccomp_policy/qesdksec.policy',
+        'vendor/etc/seccomp_policy/qti-systemd.policy',
+    ): blob_fixup()
+        .add_line_if_missing('lseek: 1'),
     'system_ext/lib64/libwfdservice.so': blob_fixup()
         .replace_needed('android.media.audio.common.types-V4-cpp.so', 'android.media.audio.common.types-V5-cpp.so'),
     'system_ext/lib64/vendor.qti.hardware.qccsyshal@1.2-halimpl.so': blob_fixup()
