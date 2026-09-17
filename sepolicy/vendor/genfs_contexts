@@ -2,7 +2,8 @@
 genfscon sysfs /devices/platform/soc/soc:qcom,dsi-display-primary/fod_ui    u:object_r:vendor_sysfs_fingerprint:s0
 
 # Touchscreen
-genfscon sysfs /devices/platform/goodix_ts.0    u:object_r:vendor_sysfs_touchpanel:s0
+genfscon sysfs /devices/platform/goodix_ts.0/gesture       u:object_r:vendor_sysfs_touchpanel:s0
+genfscon sysfs /devices/platform/goodix_ts.0/rate_boost    u:object_r:vendor_sysfs_touchpanel:s0
 
 # USB
 genfscon sysfs /devices/platform/soc/soc:charger_policy_service    u:object_r:vendor_sysfs_usb_supply:s0

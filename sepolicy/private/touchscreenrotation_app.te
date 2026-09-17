@@ -1,0 +1,11 @@
+type touchscreenrotation_app, domain, coredomain;
+app_domain(touchscreenrotation_app)
+
+allow touchscreenrotation_app {
+    activity_service
+    content_capture_service
+    sensorservice_service
+}:service_manager find;
+
+allow touchscreenrotation_app sysfs:dir search;
+allow touchscreenrotation_app sysfs_touchpanel_rotation:file rw_file_perms;

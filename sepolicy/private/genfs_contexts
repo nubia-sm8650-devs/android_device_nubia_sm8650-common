@@ -5,3 +5,6 @@ genfscon sysfs /kernel/fan/fan_speed_level    u:object_r:sysfs_fan:s0
 # Trigger buttons
 genfscon proc /nubia_key/sar0/mode_operation    u:object_r:proc_touchkey:s0
 genfscon proc /nubia_key/sar1/mode_operation    u:object_r:proc_touchkey:s0
+
+# Touchscreen
+genfscon sysfs /devices/platform/goodix_ts.0/rotation    u:object_r:sysfs_touchpanel_rotation:s0
