@@ -11,10 +11,12 @@
 #include <aidl/android/hardware/biometrics/fingerprint/ISessionCallback.h>
 #include <android/binder_to_string.h>
 
+#include <atomic>
 #include <condition_variable>
 #include <future>
 #include <queue>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace aidl::android::hardware::biometrics::fingerprint {
@@ -51,6 +53,8 @@ class FingerprintEngine {
     bool handleAcquiredOrErrorMessage(fingerprint_msg_t& msg, bool& exit);
 
     static void onMessageWrapper(const fingerprint_msg_t* msg);
+    void fodUiThreadLoop();
+    void notifyFodUi(bool ready);
     void onMessage(const fingerprint_msg_t* msg);
     std::thread waitForCancel(const std::future<void>& cancel, std::atomic<bool>& stopFlag);
     fingerprint_msg_t waitForMessage();
@@ -65,6 +69,9 @@ class FingerprintEngine {
     std::queue<fingerprint_msg_t> mMessageQueue;
 
     ISessionCallback* mCb;
+
+    std::thread mFodUiThread;
+    std::atomic<bool> mFodUiThreadStop{false};
 
   private:
     fingerprint_device_t* openHal(const char* class_name, const char* module_id);
