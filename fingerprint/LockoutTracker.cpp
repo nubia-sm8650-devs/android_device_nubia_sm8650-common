@@ -7,6 +7,8 @@
 
 #include <util/Util.h>
 
+#include <algorithm>
+
 namespace aidl::android::hardware::biometrics::fingerprint {
 
 void LockoutTracker::reset(bool dueToTimeout) {
@@ -48,7 +50,7 @@ int64_t LockoutTracker::getLockoutTimeLeft() {
     if (mLockoutTimedStart > 0) {
         auto now = Util::getSystemNanoTime();
         auto elapsed = (now - mLockoutTimedStart) / 1000000LL;
-        res = LOCKOUT_TIMED_DURATION - elapsed;
+        res = std::max<int64_t>(LOCKOUT_TIMED_DURATION - elapsed, 0);
         LOG(INFO) << "elapsed=" << elapsed << " now = " << now
                   << " mLockoutTimedStart=" << mLockoutTimedStart << " res=" << res;
     }
