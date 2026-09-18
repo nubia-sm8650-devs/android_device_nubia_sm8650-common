@@ -11,7 +11,9 @@ import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import org.lineageos.settings.fan.FanActivity
+import org.lineageos.settings.fan.FanTileService
 import org.lineageos.settings.trigger.TriggerActivity
+import org.lineageos.settings.trigger.TriggerTileService
 
 class TileActivity : Activity() {
 
@@ -23,8 +25,8 @@ class TileActivity : Activity() {
 
         val targetActivity =
             when (sourceClass?.className) {
-                "org.lineageos.settings.fan.FanTileService" -> FanActivity::class.java
-                "org.lineageos.settings.trigger.TriggerTileService" -> TriggerActivity::class.java
+                FanTileService::class.java.name -> FanActivity::class.java
+                TriggerTileService::class.java.name -> TriggerActivity::class.java
                 else -> null
             }
 
