@@ -85,8 +85,8 @@ class FingerprintEngine {
     void lockoutTimerExpired();
     void startLockoutTimer(int64_t timeout);
     bool isLockoutTimerSupported;
-    bool isLockoutTimerStarted;
-    bool isLockoutTimerAborted;
+    std::atomic<bool> isLockoutTimerStarted;
+    std::atomic<bool> isLockoutTimerAborted;
 
     LockoutTracker mLockoutTracker;
 };
