@@ -57,7 +57,9 @@ class FingerprintEngine {
     void notifyFodUi(bool ready);
     void onMessage(const fingerprint_msg_t* msg);
     std::thread waitForCancel(const std::future<void>& cancel, std::atomic<bool>& stopFlag);
+    fingerprint_msg_t popMessage();
     fingerprint_msg_t waitForMessage();
+    fingerprint_msg_t waitForReply();
 
     void printError(std::pair<Error, int32_t> ec);
     std::pair<Error, int32_t> convertError(int32_t error);
