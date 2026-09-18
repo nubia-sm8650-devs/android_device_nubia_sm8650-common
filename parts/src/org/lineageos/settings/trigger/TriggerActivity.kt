@@ -22,7 +22,7 @@ class TriggerActivity : CollapsingToolbarBaseActivity() {
         }
     }
 
-    companion object {
-        private const val TAG = "trigger"
+    private companion object {
+        const val TAG = "trigger"
     }
 }
