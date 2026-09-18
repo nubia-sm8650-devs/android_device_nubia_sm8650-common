@@ -51,9 +51,6 @@
             <meta-data
                 android:name="com.android.settings.icon"
                 android:resource="@drawable/ic_nubia"/>
-            <meta-data
-                android:name="com.android.settings.summary"
-                android:resource="@string/nubia_summary" />
         </activity>
 
         <activity
