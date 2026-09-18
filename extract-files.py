@@ -141,7 +141,6 @@ blob_fixups: blob_fixups_user_type = {
         'vendor/etc/seccomp_policy/atfwd@2.0.policy',
         'vendor/etc/seccomp_policy/c2audio.vendor.ext-arm64.policy',
         'vendor/etc/seccomp_policy/codec2.vendor.ext-arm64.policy',
-        'vendor/etc/seccomp_policy/qesdksec.policy',
         'vendor/etc/seccomp_policy/qti-systemd.policy',
     ): blob_fixup()
         .add_line_if_missing('lseek: 1'),
