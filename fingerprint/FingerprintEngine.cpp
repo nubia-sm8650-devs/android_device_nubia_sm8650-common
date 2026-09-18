@@ -29,6 +29,8 @@ constexpr const char* FOD_UI_PATH = "/sys/devices/platform/soc/soc:qcom,dsi-disp
 constexpr int FOD_UI_POLL_TIMEOUT_MS = 1000;
 constexpr int FOD_UI_READY_COMMAND = 30;
 
+constexpr auto REPLY_TIMEOUT = std::chrono::seconds(10);
+
 static bool readBool(int fd, bool fallback) {
     char c;
 
@@ -189,7 +191,14 @@ void FingerprintEngine::generateChallengeImpl() {
     }
 
     while (true) {
-        auto msg = waitForMessage();
+        auto msg = waitForReply();
+
+        if (msg.type == FINGERPRINT_ERROR) {
+            auto ec = convertError(msg.data.error);
+            printError(ec);
+            mCb->onError(ec.first, ec.second);
+            return;
+        }
 
         if (msg.type != FINGERPRINT_GENERATE_CHALLENGE) {
             LOG(ERROR) << "Unexpected message type: " << msg.type;
@@ -218,7 +227,14 @@ void FingerprintEngine::revokeChallengeImpl(int64_t challenge) {
     }
 
     while (true) {
-        auto msg = waitForMessage();
+        auto msg = waitForReply();
+
+        if (msg.type == FINGERPRINT_ERROR) {
+            auto ec = convertError(msg.data.error);
+            printError(ec);
+            mCb->onError(ec.first, ec.second);
+            return;
+        }
 
         if (msg.type != FINGERPRINT_REVOKE_CHALLENGE) {
             LOG(ERROR) << "Unexpected message type: " << msg.type;
@@ -240,9 +256,12 @@ bool FingerprintEngine::handleAcquiredOrErrorMessage(fingerprint_msg_t& msg, boo
 
         if (ec.first == Error::CANCELED) {
             mDevice->cancel();
-            auto msg = waitForMessage();
-            CHECK(msg.type == FINGERPRINT_ERROR);
-            CHECK(msg.data.error == FINGERPRINT_ERROR_CANCELED);
+
+            auto cancelMsg = waitForReply();
+            if (cancelMsg.type != FINGERPRINT_ERROR ||
+                cancelMsg.data.error != FINGERPRINT_ERROR_CANCELED) {
+                LOG(ERROR) << "Unexpected message while cancelling: " << cancelMsg.type;
+            }
         }
 
         exit = true;
@@ -400,7 +419,7 @@ void FingerprintEngine::enumerateEnrollmentsImpl() {
         return;
     }
 
-    auto msg = waitForMessage();
+    auto msg = waitForReply();
 
     if (msg.type != FINGERPRINT_TEMPLATE_ENUMERATING) {
         LOG(ERROR) << "Unexpected message type: " << msg.type;
@@ -434,7 +453,7 @@ void FingerprintEngine::removeEnrollmentsImpl(const std::vector<int32_t>& enroll
     }
 
     std::vector<int32_t> removedEnrollmentIds;
-    auto msg = waitForMessage();
+    auto msg = waitForReply();
 
     if (msg.type == FINGERPRINT_ERROR) {
         auto ec = convertError(msg.data.error);
@@ -590,6 +609,14 @@ std::pair<AcquiredInfo, int32_t> FingerprintEngine::convertAcquiredInfo(int32_t 
     return res;
 }
 
+fingerprint_msg_t FingerprintEngine::popMessage() {
+    fingerprint_msg_t msg = mMessageQueue.front();
+    LOG(INFO) << "Found message type: " << msg.type;
+    mMessageQueue.pop();
+
+    return msg;
+}
+
 fingerprint_msg_t FingerprintEngine::waitForMessage() {
     LOG(INFO) << __func__;
 
@@ -597,11 +624,24 @@ fingerprint_msg_t FingerprintEngine::waitForMessage() {
 
     mMessageCond.wait(lock, [this] { return !mMessageQueue.empty(); });
 
-    fingerprint_msg_t msg = mMessageQueue.front();
-    LOG(INFO) << "Found message type: " << msg.type;
-    mMessageQueue.pop();
+    return popMessage();
+}
 
-    return msg;
+fingerprint_msg_t FingerprintEngine::waitForReply() {
+    LOG(INFO) << __func__;
+
+    std::unique_lock<std::mutex> lock(mMessageMutex);
+
+    if (!mMessageCond.wait_for(lock, REPLY_TIMEOUT,
+                               [this] { return !mMessageQueue.empty(); })) {
+        LOG(ERROR) << "timed out waiting for a reply";
+        return fingerprint_msg_t{
+                .type = FINGERPRINT_ERROR,
+                .data.error = FINGERPRINT_ERROR_TIMEOUT,
+        };
+    }
+
+    return popMessage();
 }
 
 void FingerprintEngine::onMessage(const fingerprint_msg_t* msg) {
