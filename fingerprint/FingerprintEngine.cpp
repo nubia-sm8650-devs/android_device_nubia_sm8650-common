@@ -9,8 +9,10 @@
 
 #include <android-base/logging.h>
 
+#include <errno.h>
 #include <fcntl.h>
 #include <poll.h>
+#include <unistd.h>
 
 #include <chrono>
 #include <mutex>
@@ -24,20 +26,20 @@ static FingerprintEngine* sInstance;
 namespace {
 constexpr const char* FOD_UI_PATH = "/sys/devices/platform/soc/soc:qcom,dsi-display-primary/fod_ui";
 
-static bool readBool(int fd) {
-    char c;
-    int rc;
+constexpr int FOD_UI_POLL_TIMEOUT_MS = 1000;
+constexpr int FOD_UI_READY_COMMAND = 30;
 
-    rc = lseek(fd, 0, SEEK_SET);
-    if (rc) {
-        LOG(ERROR) << "failed to seek fd, err: " << rc;
-        return false;
+static bool readBool(int fd, bool fallback) {
+    char c;
+
+    if (lseek(fd, 0, SEEK_SET) < 0) {
+        PLOG(ERROR) << "failed to seek fod_ui";
+        return fallback;
     }
 
-    rc = read(fd, &c, sizeof(char));
-    if (rc != 1) {
-        LOG(ERROR) << "failed to read bool from fd, err: " << rc;
-        return false;
+    if (read(fd, &c, sizeof(char)) != 1) {
+        PLOG(ERROR) << "failed to read fod_ui";
+        return fallback;
     }
 
     return c != '0';
@@ -48,38 +50,68 @@ static bool readBool(int fd) {
 FingerprintEngine::FingerprintEngine() : mDevice(openHal(nullptr, "fingerprint.gf95xx")) {
     sInstance = this;
 
-    std::thread([this]() {
-        int fd = open(FOD_UI_PATH, O_RDONLY);
-        if (fd < 0) {
-            LOG(ERROR) << "failed to open fd, err: " << fd;
-            return;
-        }
+    mFodUiThread = std::thread([this]() { fodUiThreadLoop(); });
+}
 
-        struct pollfd fodUiPoll = {
-                .fd = fd,
-                .events = POLLERR | POLLPRI,
-                .revents = 0,
-        };
+void FingerprintEngine::notifyFodUi(bool ready) {
+    if (mDevice == nullptr) {
+        return;
+    }
 
-        while (true) {
-            int rc = poll(&fodUiPoll, 1, -1);
-            if (rc < 0) {
-                LOG(ERROR) << "failed to poll fd, err: " << rc;
+    LOG(INFO) << "fodUiReady: " << ready;
+
+    int error = mDevice->sendCustomizedCommand(mDevice, FOD_UI_READY_COMMAND, ready);
+    if (error) {
+        LOG(ERROR) << "sendCustomizedCommand failed: " << error;
+    }
+}
+
+void FingerprintEngine::fodUiThreadLoop() {
+    int fd = open(FOD_UI_PATH, O_RDONLY);
+    if (fd < 0) {
+        PLOG(ERROR) << "failed to open " << FOD_UI_PATH;
+        return;
+    }
+
+    bool fodUiReady = readBool(fd, false);
+    notifyFodUi(fodUiReady);
+
+    struct pollfd fodUiPoll = {
+            .fd = fd,
+            .events = POLLERR | POLLPRI,
+            .revents = 0,
+    };
+
+    while (!mFodUiThreadStop.load()) {
+        fodUiPoll.revents = 0;
+
+        int rc = poll(&fodUiPoll, 1, FOD_UI_POLL_TIMEOUT_MS);
+        if (rc < 0) {
+            if (errno == EINTR) {
                 continue;
             }
-
-            bool fodUiReady = readBool(fd);
-            LOG(INFO) << "fodUiReady: " << fodUiReady;
-            int error = mDevice->sendCustomizedCommand(mDevice, 30, fodUiReady);
-            if (error) {
-                LOG(ERROR) << "sendCustomizedCommand failed: " << error;
-            }
+            PLOG(ERROR) << "failed to poll fod_ui, giving up";
+            break;
         }
-    }).detach();
+
+        if (rc == 0) {
+            continue;
+        }
+
+        fodUiReady = readBool(fd, fodUiReady);
+        notifyFodUi(fodUiReady);
+    }
+
+    close(fd);
 }
 
 FingerprintEngine::~FingerprintEngine() {
     LOG(INFO) << __func__;
+
+    mFodUiThreadStop = true;
+    if (mFodUiThread.joinable()) {
+        mFodUiThread.join();
+    }
 
     if (mDevice == nullptr) {
         LOG(ERROR) << "No valid device";
