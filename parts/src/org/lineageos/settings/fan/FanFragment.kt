@@ -15,7 +15,6 @@ import org.lineageos.settings.utils.*
 
 class FanFragment : SettingsBasePreferenceFragment(), Preference.OnPreferenceChangeListener {
 
-    private lateinit var mSwitchBar: MainSwitchPreference
     private lateinit var mFanSpeedBar: SliderPreference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -25,11 +24,10 @@ class FanFragment : SettingsBasePreferenceFragment(), Preference.OnPreferenceCha
         val savedSpeed =
             getInt(requireContext(), FanController.KEY_FAN_SPEED, FanController.FAN_DEFAULT_SPEED)
 
-        mSwitchBar =
-            findPreference<MainSwitchPreference>(FanController.KEY_FAN_ENABLE)!!.apply {
-                setChecked(fanEnabled)
-                onPreferenceChangeListener = this@FanFragment
-            }
+        findPreference<MainSwitchPreference>(FanController.KEY_FAN_ENABLE)!!.apply {
+            setChecked(fanEnabled)
+            onPreferenceChangeListener = this@FanFragment
+        }
 
         mFanSpeedBar =
             findPreference<SliderPreference>(FanController.KEY_FAN_SPEED)!!.apply {

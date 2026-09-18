@@ -14,18 +14,15 @@ import org.lineageos.settings.utils.*
 
 class TriggerFragment : SettingsBasePreferenceFragment(), Preference.OnPreferenceChangeListener {
 
-    private lateinit var mSwitchBar: MainSwitchPreference
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.trigger_preferences)
 
         val triggerEnabled = getInt(requireContext(), TriggerController.KEY_TRIGGER_ENABLE, 0) == 1
 
-        mSwitchBar =
-            findPreference<MainSwitchPreference>(TriggerController.KEY_TRIGGER_ENABLE)!!.apply {
-                setChecked(triggerEnabled)
-                onPreferenceChangeListener = this@TriggerFragment
-            }
+        findPreference<MainSwitchPreference>(TriggerController.KEY_TRIGGER_ENABLE)!!.apply {
+            setChecked(triggerEnabled)
+            onPreferenceChangeListener = this@TriggerFragment
+        }
     }
 
     override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
