@@ -35,20 +35,12 @@ object TriggerController {
     }
 
     /*
-     * Apply trigger buttons state settings
-     * @return puts the value in place
-     */
-    fun applySettings(context: Context, enabled: Boolean) {
-        setTriggerEnabled(context, enabled)
-    }
-
-    /*
      * Restore settings on boot / resume
      * @return puts the value in place
      */
     fun restoreSettings(context: Context) {
         val triggerEnabled = getInt(context, KEY_TRIGGER_ENABLE, 0) == 1
 
-        applySettings(context, triggerEnabled)
+        setTriggerEnabled(context, triggerEnabled)
     }
 }
