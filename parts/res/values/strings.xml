@@ -5,7 +5,6 @@
 -->
 <resources>
     <string name="nubia_title">Nubia settings</string>
-    <string name="nubia_summary">Additional device specific tweaks</string>
 
     <!-- Fan Control -->
     <string name="fan_control_title">Fan Control</string>
