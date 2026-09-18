@@ -22,7 +22,7 @@ class FanActivity : CollapsingToolbarBaseActivity() {
         }
     }
 
-    companion object {
-        private const val TAG = "fan"
+    private companion object {
+        const val TAG = "fan"
     }
 }
