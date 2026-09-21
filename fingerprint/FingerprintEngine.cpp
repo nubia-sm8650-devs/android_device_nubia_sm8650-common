@@ -182,6 +182,8 @@ void FingerprintEngine::generateChallengeImpl() {
     std::unique_lock<std::mutex> lock(mMutex);
     CHECK(mCb != nullptr);
 
+    discardStaleMessages();
+
     uint64_t error = mDevice->generateChallenge(mDevice);
     if (error) {
         auto ec = convertError(error);
@@ -217,6 +219,8 @@ void FingerprintEngine::revokeChallengeImpl(int64_t challenge) {
 
     std::unique_lock<std::mutex> lock(mMutex);
     CHECK(mCb != nullptr);
+
+    discardStaleMessages();
 
     uint64_t error = mDevice->revokeChallenge(mDevice, challenge);
     if (error) {
@@ -307,6 +311,8 @@ void FingerprintEngine::enrollImpl(const keymaster::HardwareAuthToken& hat,
     std::unique_lock<std::mutex> lock(mMutex);
     CHECK(mCb != nullptr);
 
+    discardStaleMessages();
+
     hw_auth_token_t authToken;
     translate(hat, authToken);
     int error = mDevice->enroll(mDevice, &authToken);
@@ -352,6 +358,8 @@ void FingerprintEngine::authenticateImpl(int64_t operationId, const std::future<
 
     std::unique_lock<std::mutex> lock(mMutex);
     CHECK(mCb != nullptr);
+
+    discardStaleMessages();
 
     int error = mDevice->authenticate(mDevice, operationId);
     if (error) {
@@ -409,6 +417,8 @@ void FingerprintEngine::enumerateEnrollmentsImpl() {
     std::unique_lock<std::mutex> lock(mMutex);
     CHECK(mCb != nullptr);
 
+    discardStaleMessages();
+
     std::vector<int32_t> enrollmentIds;
 
     int error = mDevice->enumerate(mDevice);
@@ -444,6 +454,8 @@ void FingerprintEngine::removeEnrollmentsImpl(const std::vector<int32_t>& enroll
 
     std::unique_lock<std::mutex> lock(mMutex);
     CHECK(mCb != nullptr);
+
+    discardStaleMessages();
 
     int error = mDevice->remove(mDevice, enrollmentIds.data(), enrollmentIds.size());
     if (error) {
@@ -485,6 +497,8 @@ void FingerprintEngine::getAuthenticatorIdImpl() {
     std::unique_lock<std::mutex> lock(mMutex);
     CHECK(mCb != nullptr);
 
+    discardStaleMessages();
+
     uint64_t error = mDevice->getAuthenticatorId(mDevice);
     if (error) {
         auto ec = convertError(error);
@@ -513,6 +527,8 @@ void FingerprintEngine::invalidateAuthenticatorIdImpl() {
 
     std::unique_lock<std::mutex> lock(mMutex);
     CHECK(mCb != nullptr);
+
+    discardStaleMessages();
 
     uint64_t error = mDevice->invalidateAuthenticatorId(mDevice);
     if (error) {
@@ -607,6 +623,15 @@ std::pair<AcquiredInfo, int32_t> FingerprintEngine::convertAcquiredInfo(int32_t 
         res.second = 0;
     }
     return res;
+}
+
+void FingerprintEngine::discardStaleMessages() {
+    std::lock_guard<std::mutex> lock(mMessageMutex);
+
+    while (!mMessageQueue.empty()) {
+        LOG(WARNING) << "Discarding stale message type: " << mMessageQueue.front().type;
+        mMessageQueue.pop();
+    }
 }
 
 fingerprint_msg_t FingerprintEngine::popMessage() {
