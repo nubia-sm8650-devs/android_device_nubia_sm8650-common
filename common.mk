@@ -50,7 +50,7 @@ PRODUCT_PACKAGES += \
     android.hardware.bluetooth.audio-impl \
     android.hardware.soundtrigger@2.3-impl \
     audioadsprpcd \
-    audio.bluetooth.default \
+    audio.bluetooth_lineage.default \
     audio.primary.pineapple \
     audio.r_submix.default \
     audio.usb.default \
@@ -63,6 +63,9 @@ PRODUCT_PACKAGES += \
     libagm_pcm_plugin \
     libaudiochargerlistener \
     libbatterylistener \
+    bluetooth_lineage_audio_policy_configuration \
+    libbluetooth_audio_session_backend_current \
+    libbluetooth_audio_session_backend_v3 \
     libcustomva_intf \
     libfmpal \
     libhfp_pal \
