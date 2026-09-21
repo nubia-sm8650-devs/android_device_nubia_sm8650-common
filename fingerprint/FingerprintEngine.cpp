@@ -291,6 +291,7 @@ std::thread FingerprintEngine::waitForCancel(const std::future<void>& cancel,
     return std::thread([&] {
         while (!stop.load()) {
             if (cancel.wait_for(1s) != std::future_status::ready) continue;
+            if (stop.load()) return;
 
             LOG(INFO) << "Found cancel condition";
             fingerprint_msg_t msg = {
@@ -323,7 +324,7 @@ void FingerprintEngine::enrollImpl(const keymaster::HardwareAuthToken& hat,
         return;
     }
 
-    std::atomic<bool> stop;
+    std::atomic<bool> stop{false};
     std::thread cancelThread = waitForCancel(cancel, stop);
 
     while (true) {
@@ -369,7 +370,7 @@ void FingerprintEngine::authenticateImpl(int64_t operationId, const std::future<
         return;
     }
 
-    std::atomic<bool> stop;
+    std::atomic<bool> stop{false};
     std::thread cancelThread = waitForCancel(cancel, stop);
 
     while (true) {
