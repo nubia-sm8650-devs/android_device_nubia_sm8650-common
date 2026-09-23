@@ -26,9 +26,18 @@ static FingerprintEngine* sInstance;
 namespace {
 constexpr const char* FOD_UI_PATH = "/sys/devices/platform/soc/soc:qcom,dsi-display-primary/fod_ui";
 
-constexpr int FOD_UI_POLL_TIMEOUT_MS = 1000;
+constexpr int FOD_UI_POLL_TIMEOUT_MS = 100;
 constexpr int FOD_UI_READY_COMMAND = 30;
 constexpr int FINGER_COMMAND = 10;
+
+/*
+ * The sensor starts exposing as soon as it is told the finger is down, and the
+ * shim gates that only on an authentication being in progress, never on the
+ * illumination being up. Hold the press until fod_ui reports HBM so the whole
+ * exposure is lit, and give up after this long so a display path that never
+ * raises HBM cannot stall authentication outright.
+ */
+constexpr auto FINGER_DOWN_FALLBACK = std::chrono::milliseconds(100);
 
 constexpr auto REPLY_TIMEOUT = std::chrono::seconds(10);
 
@@ -56,6 +65,16 @@ FingerprintEngine::FingerprintEngine() : mDevice(openHal(nullptr, "fingerprint.g
     mFodUiThread = std::thread([this]() { fodUiThreadLoop(); });
 }
 
+void FingerprintEngine::sendFingerDownLocked() {
+    mFingerDownPending = false;
+    mFingerDownSent = true;
+
+    int error = mDevice->sendCustomizedCommand(mDevice, FINGER_COMMAND, 1);
+    if (error) {
+        printError(convertError(error));
+    }
+}
+
 void FingerprintEngine::notifyFodUi(bool ready) {
     if (mDevice == nullptr) {
         return;
@@ -66,6 +85,14 @@ void FingerprintEngine::notifyFodUi(bool ready) {
     int error = mDevice->sendCustomizedCommand(mDevice, FOD_UI_READY_COMMAND, ready);
     if (error) {
         LOG(ERROR) << "sendCustomizedCommand failed: " << error;
+    }
+
+    std::lock_guard<std::mutex> lock(mFodUiMutex);
+
+    mFodUiReady = ready;
+
+    if (ready && mFingerDownPending) {
+        sendFingerDownLocked();
     }
 }
 
@@ -95,6 +122,15 @@ void FingerprintEngine::fodUiThreadLoop() {
             }
             PLOG(ERROR) << "failed to poll fod_ui, giving up";
             break;
+        }
+
+        {
+            std::lock_guard<std::mutex> lock(mFodUiMutex);
+
+            if (mFingerDownPending && steady_clock::now() >= mFingerDownDeadline) {
+                LOG(WARNING) << "fod_ui never reported HBM, sending finger down";
+                sendFingerDownLocked();
+            }
         }
 
         if (rc == 0) {
@@ -567,11 +603,13 @@ ndk::ScopedAStatus FingerprintEngine::onPointerDownImpl(int32_t /*pointerId*/, i
                                                         float /*major*/) {
     LOG(INFO) << __func__;
 
-    int error = mDevice->sendCustomizedCommand(mDevice, FINGER_COMMAND, 1);
-    if (error) {
-        auto ec = convertError(error);
-        printError(ec);
-        return ndk::ScopedAStatus::fromExceptionCode(EX_SERVICE_SPECIFIC);
+    std::lock_guard<std::mutex> lock(mFodUiMutex);
+
+    if (mFodUiReady) {
+        sendFingerDownLocked();
+    } else {
+        mFingerDownPending = true;
+        mFingerDownDeadline = steady_clock::now() + FINGER_DOWN_FALLBACK;
     }
 
     return ndk::ScopedAStatus::ok();
@@ -579,6 +617,16 @@ ndk::ScopedAStatus FingerprintEngine::onPointerDownImpl(int32_t /*pointerId*/, i
 
 ndk::ScopedAStatus FingerprintEngine::onPointerUpImpl(int32_t /*pointerId*/) {
     LOG(INFO) << __func__;
+
+    std::lock_guard<std::mutex> lock(mFodUiMutex);
+
+    mFingerDownPending = false;
+
+    if (!mFingerDownSent) {
+        return ndk::ScopedAStatus::ok();
+    }
+
+    mFingerDownSent = false;
 
     int error = mDevice->sendCustomizedCommand(mDevice, FINGER_COMMAND, 0);
     if (error) {

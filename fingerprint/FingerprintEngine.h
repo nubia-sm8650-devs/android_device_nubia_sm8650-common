@@ -12,6 +12,7 @@
 #include <android/binder_to_string.h>
 
 #include <atomic>
+#include <chrono>
 #include <condition_variable>
 #include <future>
 #include <queue>
@@ -55,6 +56,7 @@ class FingerprintEngine {
     static void onMessageWrapper(const fingerprint_msg_t* msg);
     void fodUiThreadLoop();
     void notifyFodUi(bool ready);
+    void sendFingerDownLocked();
     void onMessage(const fingerprint_msg_t* msg);
     std::thread waitForCancel(const std::future<void>& cancel, std::atomic<bool>& stopFlag);
     void discardStaleMessages();
@@ -75,6 +77,12 @@ class FingerprintEngine {
 
     std::thread mFodUiThread;
     std::atomic<bool> mFodUiThreadStop{false};
+
+    std::mutex mFodUiMutex;
+    bool mFodUiReady = false;
+    bool mFingerDownPending = false;
+    bool mFingerDownSent = false;
+    std::chrono::steady_clock::time_point mFingerDownDeadline;
 
   private:
     fingerprint_device_t* openHal(const char* class_name, const char* module_id);
