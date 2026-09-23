@@ -28,6 +28,7 @@ constexpr const char* FOD_UI_PATH = "/sys/devices/platform/soc/soc:qcom,dsi-disp
 
 constexpr int FOD_UI_POLL_TIMEOUT_MS = 1000;
 constexpr int FOD_UI_READY_COMMAND = 30;
+constexpr int FINGER_COMMAND = 10;
 
 constexpr auto REPLY_TIMEOUT = std::chrono::seconds(10);
 
@@ -566,7 +567,7 @@ ndk::ScopedAStatus FingerprintEngine::onPointerDownImpl(int32_t /*pointerId*/, i
                                                         float /*major*/) {
     LOG(INFO) << __func__;
 
-    int error = mDevice->sendCustomizedCommand(mDevice, 10, 1);
+    int error = mDevice->sendCustomizedCommand(mDevice, FINGER_COMMAND, 1);
     if (error) {
         auto ec = convertError(error);
         printError(ec);
@@ -579,7 +580,7 @@ ndk::ScopedAStatus FingerprintEngine::onPointerDownImpl(int32_t /*pointerId*/, i
 ndk::ScopedAStatus FingerprintEngine::onPointerUpImpl(int32_t /*pointerId*/) {
     LOG(INFO) << __func__;
 
-    int error = mDevice->sendCustomizedCommand(mDevice, 10, 0);
+    int error = mDevice->sendCustomizedCommand(mDevice, FINGER_COMMAND, 0);
     if (error) {
         auto ec = convertError(error);
         printError(ec);
