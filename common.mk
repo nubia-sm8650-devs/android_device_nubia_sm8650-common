@@ -104,6 +104,10 @@ PRODUCT_PACKAGES += \
 # Camera
 $(call soong_config_set_bool,camera,override_format_from_reserved,true)
 
+# Codec2
+PRODUCT_PACKAGES += \
+    libqti_c2_store_abi_check
+
 # Display
 PRODUCT_PACKAGES += \
     vendor.qti.hardware.display.allocator-service \

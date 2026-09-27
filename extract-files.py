@@ -144,6 +144,11 @@ blob_fixups: blob_fixups_user_type = {
         'vendor/etc/seccomp_policy/qti-systemd.policy',
     ): blob_fixup()
         .add_line_if_missing('lseek: 1'),
+    (
+        'vendor/bin/hw/vendor.qti.media.c2@1.0-service',
+        'vendor/bin/hw/vendor.qti.media.c2audio@1.0-service',
+    ): blob_fixup()
+        .binary_regex_replace(b'\x00\x21\x80\x52', b'\x00\x24\x80\x52'),
     'system_ext/lib64/libwfdservice.so': blob_fixup()
         .replace_needed('android.media.audio.common.types-V4-cpp.so', 'android.media.audio.common.types-V5-cpp.so'),
     'system_ext/lib64/vendor.qti.hardware.qccsyshal@1.2-halimpl.so': blob_fixup()
