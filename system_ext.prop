@@ -1,6 +1,12 @@
 # Audio
 audio.offload.min.duration.secs=30
 
+# Bluetooth
+bluetooth.leaudio.dual_bidirection_swb.supported=true
+persist.bluetooth.leaudio.notify.idle.during.call=true
+persist.bluetooth.leaudio_offload.disabled=false
+ro.bluetooth.leaudio_offload.supported=true
+
 # CNE
 persist.vendor.cne.feature=1
 
