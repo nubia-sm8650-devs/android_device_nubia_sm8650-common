@@ -112,6 +112,7 @@ bluetooth.profile.opp.enabled=true
 bluetooth.profile.pan.nap.enabled=true
 bluetooth.profile.pan.panu.enabled=true
 bluetooth.profile.pbap.server.enabled=true
+bluetooth.profile.bas.client.enabled=true
 bluetooth.device_id.vendor_id=0x001D
 bluetooth.leaudio.dual_bidirection_swb.supported=false
 persist.bluetooth.a2dp_offload.disabled=false
