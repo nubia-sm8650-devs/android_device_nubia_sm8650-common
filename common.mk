@@ -163,6 +163,10 @@ PRODUCT_PACKAGES += \
     android.hardware.health-service.qti \
     android.hardware.health-service.qti_recovery
 
+# IMS
+PRODUCT_PACKAGES += \
+    libgui_surface_abi_check
+
 # IPACM
 PRODUCT_PACKAGES += \
     ipacm \

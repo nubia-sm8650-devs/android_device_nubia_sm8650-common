@@ -37,3 +37,16 @@ cc_library_shared {
         "c2_store_abi_check/abi_check_1_2.cpp",
     ],
 }
+
+cc_library_shared {
+    name: "libgui_surface_abi_check",
+    system_ext_specific: true,
+    shared_libs: [
+        "libbinder",
+        "libgui",
+        "libnativewindow",
+        "libui",
+        "libutils",
+    ],
+    srcs: ["surface_abi_check/abi_check.cpp"],
+}
