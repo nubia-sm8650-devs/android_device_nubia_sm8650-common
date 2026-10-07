@@ -1,3 +1,6 @@
+# Bluetooth
+android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory/offload    u:object_r:hal_audio_service:s0
+
 # Camera
 vendor.zte.hardware.camera.transfer.ITransfer/vendor_zte/0    u:object_r:hal_camera_transfer_service:s0
 

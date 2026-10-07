@@ -465,6 +465,9 @@ SPDX-License-Identifier: BSD-3-Clause-Clear
 
         </module>
 
+        <!-- Bluetooth Audio HAL, for codecs the controller cannot encode -->
+        <xi:include href="/vendor/etc/bluetooth_audio_policy_configuration_7_0.xml"/>
+
         <!-- Usb Audio HAL -->
         <module name="usb" halVersion="2.0">
             <mixPorts>
