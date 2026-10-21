@@ -54,8 +54,12 @@ TARGET_SCREEN_DENSITY := 460
 
 # DTB / DTBO
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+BOARD_KERNEL_SEPARATED_DTBO := true
+else
 BOARD_USES_QCOM_MERGE_DTBS_SCRIPT := true
 TARGET_NEEDS_DTBOIMAGE := true
+endif
 
 # Filesystem
 TARGET_FS_CONFIG_GEN := $(COMMON_PATH)/config.fs
@@ -106,6 +110,18 @@ BOARD_BOOTCONFIG := \
     androidboot.hypervisor.protected_vm.supported=false \
     androidboot.console=0
 
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+BOARD_KERNEL_CMDLINE += \
+    clk_ignore_unused \
+    pd_ignore_unused \
+    qcom_ice.use_wrapped_keys=1
+
+TARGET_KERNEL_CONFIG := \
+    gki_defconfig \
+    vendor/zte_sm8650.config
+
+TARGET_KERNEL_SOURCE := kernel/nubia/sm8650-mainline
+else
 TARGET_KERNEL_CONFIG := \
     gki_defconfig \
     vendor/pineapple_GKI.config \
@@ -153,6 +169,7 @@ TARGET_KERNEL_EXT_MODULES := \
     qcom/opensource/bt-kernel \
     qcom/opensource/spu-kernel \
     qcom/opensource/mm-sys-kernel/ubwcp
+endif
 
 # Partitions
 -include vendor/lineage/config/BoardConfigReservedSize.mk
