@@ -116,6 +116,7 @@ BOARD_KERNEL_CMDLINE += \
     qcom_ice.use_wrapped_keys=1
 
 BOARD_BOOTCONFIG += \
+    androidboot.bootdevice_parent=soc@0 \
     androidboot.selinux=permissive \
     androidboot.usbcontroller=a600000.usb
 

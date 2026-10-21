@@ -38,8 +38,8 @@ on property:ro.boot.usbcontroller=*
     wait /sys/class/udc/${ro.boot.usbcontroller} 1
 
 on fs
-    wait /dev/block/platform/soc/${ro.boot.bootdevice}
-    symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+    wait /dev/block/platform/${ro.boot.bootdevice_parent:-soc}/${ro.boot.bootdevice}
+    symlink /dev/block/platform/${ro.boot.bootdevice_parent:-soc}/${ro.boot.bootdevice} /dev/block/bootdevice
     # Load ADSP firmware for PMIC
     mkdir /firmware
     mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro context=u:object_r:firmware_file:s0
