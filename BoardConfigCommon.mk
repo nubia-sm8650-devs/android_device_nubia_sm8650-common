@@ -105,7 +105,6 @@ BOARD_KERNEL_CMDLINE := \
 BOARD_BOOTCONFIG := \
     androidboot.hardware=qcom \
     androidboot.memcg=1 \
-    androidboot.usbcontroller=a600000.dwc3 \
     androidboot.load_modules_parallel=true \
     androidboot.hypervisor.protected_vm.supported=false \
     androidboot.console=0
@@ -116,12 +115,18 @@ BOARD_KERNEL_CMDLINE += \
     pd_ignore_unused \
     qcom_ice.use_wrapped_keys=1
 
+BOARD_BOOTCONFIG += \
+    androidboot.usbcontroller=a600000.usb
+
 TARGET_KERNEL_CONFIG := \
     gki_defconfig \
     vendor/zte_sm8650.config
 
 TARGET_KERNEL_SOURCE := kernel/nubia/sm8650-mainline
 else
+BOARD_BOOTCONFIG += \
+    androidboot.usbcontroller=a600000.dwc3
+
 TARGET_KERNEL_CONFIG := \
     gki_defconfig \
     vendor/pineapple_GKI.config \
