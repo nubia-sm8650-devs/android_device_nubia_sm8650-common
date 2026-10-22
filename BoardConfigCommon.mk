@@ -113,7 +113,8 @@ ifeq ($(TARGET_KERNEL_MAINLINE),true)
 BOARD_KERNEL_CMDLINE += \
     clk_ignore_unused \
     pd_ignore_unused \
-    qcom_ice.use_wrapped_keys=1
+    qcom_ice.use_wrapped_keys=1 \
+    firmware_class.path=/firmware/image
 
 BOARD_BOOTCONFIG += \
     androidboot.bootdevice_parent=soc@0 \
