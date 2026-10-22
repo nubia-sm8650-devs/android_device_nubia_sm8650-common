@@ -324,6 +324,13 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/qcom-caf/common/libqti-perfd-client \
     vendor/qcom/opensource/usb/etc
 
+# TEE
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_PACKAGES += \
+    libminkdescriptor.qcomtee \
+    minkcompat_test
+endif
+
 # Telephony
 PRODUCT_PACKAGES += \
     extphonelib \
