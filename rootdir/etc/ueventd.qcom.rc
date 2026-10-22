@@ -194,6 +194,7 @@ subsystem mem_buf_vm
 /dev/qseecom              0660   system     drmrpc
 /dev/qce                  0660   system     drmrpc
 /dev/smcinvoke            0660   system     drmrpc
+/dev/tee0                 0660   system     drmrpc
 /dev/qsee_ipc_irq_spss    0660   system     drmrpc
 /dev/qti-smmu-proxy       0660   system     system
 /dev/seemplog             0660   system     system
