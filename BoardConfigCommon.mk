@@ -119,6 +119,7 @@ BOARD_KERNEL_CMDLINE += \
     console=tty0
 
 BOARD_BOOTCONFIG += \
+    androidboot.apex.early_adbd=true \
     androidboot.bootdevice_parent=soc@0 \
     androidboot.qcomtee=1 \
     androidboot.selinux=permissive \

@@ -324,6 +324,11 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/qcom-caf/common/libqti-perfd-client \
     vendor/qcom/opensource/usb/etc
 
+# APEX
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_COMPRESSED_APEX := false
+endif
+
 # TEE
 ifeq ($(TARGET_KERNEL_MAINLINE),true)
 PRODUCT_PACKAGES += \
