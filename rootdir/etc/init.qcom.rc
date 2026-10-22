@@ -120,6 +120,19 @@ on property:init.svc.cnss-daemon=running && property:ro.boot.wlan_ath12k=1
 on property:init.svc.vendor.cnss_diag=running && property:ro.boot.wlan_ath12k=1
     stop vendor.cnss_diag
 
+on post-fs-data && property:ro.boot.bt_hci_qca=1
+    start vendor.bt_bdaddr
+
+on property:init.svc.vendor.bluetooth-1-1-qti=running && property:ro.boot.bt_hci_qca=1
+    stop vendor.bluetooth-1-1-qti
+
+service vendor.bt_bdaddr /vendor/bin/bt_bdaddr /mnt/vendor/persist/.bt_nv.bin
+    user bluetooth
+    group bluetooth net_admin
+    capabilities NET_ADMIN
+    disabled
+    oneshot
+
 on init && property:ro.boot.apex.early_adbd=true
     mkdir /config/usb_gadget/g1 0770 system usb
     mkdir /config/usb_gadget/g1/strings/0x409 0770 system usb

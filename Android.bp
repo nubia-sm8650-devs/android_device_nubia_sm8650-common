@@ -49,6 +49,13 @@ install_symlink {
 }
 
 install_symlink {
+    name: "firmware_qca_symlink",
+    vendor: true,
+    installed_location: "firmware/qca",
+    symlink_target: "/vendor/bt_firmware/image",
+}
+
+install_symlink {
     name: "firmware_ath12k_WCN7850_hw2.0_amss.bin_symlink",
     vendor: true,
     installed_location: "firmware/ath12k/WCN7850/hw2.0/amss.bin",

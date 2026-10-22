@@ -95,6 +95,30 @@ PRODUCT_COPY_FILES += \
     $(AUDIO_PAL_DIR)/configs/pineapple/Hapticsconfig.xml:$(TARGET_COPY_OUT_VENDOR)/etc/Hapticsconfig.xml \
     $(AUDIO_PAL_DIR)/configs/pineapple/card-defs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/card-defs.xml
 
+# Bluetooth
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_PACKAGES += \
+    android.hardware.bluetooth-service.default \
+    bt_bdaddr \
+    firmware_qca_symlink
+
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.bluetooth.a2dp_offload.disabled=true \
+    ro.bluetooth.a2dp_offload.supported=false
+
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
+    persist.bluetooth.leaudio_offload.disabled=true \
+    ro.bluetooth.leaudio_offload.supported=false
+else
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.bluetooth.a2dp_offload.disabled=false \
+    ro.bluetooth.a2dp_offload.supported=true
+
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
+    persist.bluetooth.leaudio_offload.disabled=false \
+    ro.bluetooth.leaudio_offload.supported=true
+endif
+
 # Boot control
 PRODUCT_PACKAGES += \
     android.hardware.boot-service.qti \

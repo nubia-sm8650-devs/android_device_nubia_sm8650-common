@@ -79,6 +79,11 @@ DEVICE_FRAMEWORK_MANIFEST_FILE := \
 DEVICE_MANIFEST_FILE := \
     $(COMMON_PATH)/manifest.xml
 
+ifneq ($(TARGET_KERNEL_MAINLINE),true)
+DEVICE_MANIFEST_FILE += \
+    $(COMMON_PATH)/manifest_bluetooth_qti.xml
+endif
+
 DEVICE_MATRIX_FILE := \
     hardware/qcom-caf/common/compatibility_matrix.xml
 
@@ -125,6 +130,7 @@ BOARD_KERNEL_CMDLINE += \
 BOARD_BOOTCONFIG += \
     androidboot.apex.early_adbd=true \
     androidboot.bootdevice_parent=soc@0 \
+    androidboot.bt_hci_qca=1 \
     androidboot.dma_heap_aliases=1 \
     androidboot.init_fatal_reboot_target=recovery \
     androidboot.modules_builtin=1 \
