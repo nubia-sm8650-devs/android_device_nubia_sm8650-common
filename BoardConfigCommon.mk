@@ -127,6 +127,7 @@ TARGET_KERNEL_CONFIG := \
     vendor/zte_sm8650.config
 
 TARGET_KERNEL_SOURCE := kernel/nubia/sm8650-mainline
+TARGET_KERNEL_OUT_SUFFIX := _MAINLINE
 else
 BOARD_BOOTCONFIG += \
     androidboot.usbcontroller=a600000.dwc3
