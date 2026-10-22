@@ -98,6 +98,10 @@ on early-init && property:ro.boot.modules_builtin=1
     # vendor_modprobe.sh sets this only after loading a modules.load list.
     setprop vendor.all.modules.ready 1
 
+on init && property:ro.boot.dma_heap_aliases=1
+    symlink /dev/dma_heap/system /dev/dma_heap/qcom,system
+    symlink /dev/dma_heap/system-uncached /dev/dma_heap/qcom,system-uncached
+
 on init && property:ro.boot.apex.early_adbd=true
     mkdir /config/usb_gadget/g1 0770 system usb
     mkdir /config/usb_gadget/g1/strings/0x409 0770 system usb

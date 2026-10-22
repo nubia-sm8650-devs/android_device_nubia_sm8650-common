@@ -124,6 +124,7 @@ BOARD_KERNEL_CMDLINE += \
 BOARD_BOOTCONFIG += \
     androidboot.apex.early_adbd=true \
     androidboot.bootdevice_parent=soc@0 \
+    androidboot.dma_heap_aliases=1 \
     androidboot.init_fatal_reboot_target=recovery \
     androidboot.modules_builtin=1 \
     androidboot.qcomtee=1 \
