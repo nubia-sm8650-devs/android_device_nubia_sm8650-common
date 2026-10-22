@@ -393,6 +393,11 @@ PRODUCT_COPY_FILES += \
 $(call soong_config_set,qti_vibrator,effect_lib,libqtivibratoreffect.nubia_sm8650-richtap)
 $(call soong_config_set_bool,qti_vibrator,use_effect_stream,true)
 
+# VINTF
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
+endif
+
 # WiFi
 PRODUCT_PACKAGES += \
     android.hardware.wifi-service \
