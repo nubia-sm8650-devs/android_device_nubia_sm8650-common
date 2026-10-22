@@ -131,6 +131,19 @@ $(call soong_config_set_bool,camera,override_format_from_reserved,true)
 PRODUCT_PACKAGES += \
     libqti_c2_store_abi_check
 
+# Data
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
+    persist.vendor.data.mode=disabled
+else
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
+    persist.vendor.data.mode=concurrent
+
+PRODUCT_PACKAGES += \
+    ipacm \
+    IPACM_cfg.xml
+endif
+
 # Display
 PRODUCT_PACKAGES += \
     vendor.qti.hardware.display.allocator-service \
@@ -208,11 +221,6 @@ PRODUCT_PACKAGES += \
 # IMS
 PRODUCT_PACKAGES += \
     libgui_surface_abi_check
-
-# IPACM
-PRODUCT_PACKAGES += \
-    ipacm \
-    IPACM_cfg.xml
 
 # IR
 PRODUCT_PACKAGES += \

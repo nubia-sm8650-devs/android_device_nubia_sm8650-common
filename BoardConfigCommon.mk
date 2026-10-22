@@ -50,6 +50,11 @@ TARGET_USES_QCOM_MM_AUDIO := true
 TARGET_BOOTLOADER_BOARD_NAME := pineapple
 TARGET_NO_BOOTLOADER := true
 
+# Data
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+$(call soong_config_set,rmnetctl,mainline_rmnet,true)
+endif
+
 # Display
 TARGET_SCREEN_DENSITY := 460
 
