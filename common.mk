@@ -437,5 +437,16 @@ PRODUCT_PACKAGES += \
     firmware_wifimac.dat_symlink \
     firmware_WCNSS_qcom_cfg.ini_symlink
 
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_PACKAGES += \
+    firmware_ath12k_WCN7850_hw2.0_amss.bin_symlink \
+    firmware_ath12k_WCN7850_hw2.0_board.bin_symlink \
+    firmware_ath12k_WCN7850_hw2.0_m3.bin_symlink \
+    firmware_ath12k_WCN7850_hw2.0_regdb.bin_symlink
+
+PRODUCT_COPY_FILES += \
+    external/wireless-regdb/regulatory.db:$(TARGET_COPY_OUT_VENDOR)/firmware/regulatory.db
+endif
+
 # Inherit from proprietary targets
 $(call inherit-product, vendor/nubia/sm8650-common/sm8650-common-vendor.mk)

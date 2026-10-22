@@ -114,6 +114,12 @@ service vendor.rmtfs /vendor/bin/rmtfs -P -o /dev/block/bootdevice/by-name
     disabled
     stdio_to_kmsg
 
+on property:init.svc.cnss-daemon=running && property:ro.boot.wlan_ath12k=1
+    stop cnss-daemon
+
+on property:init.svc.vendor.cnss_diag=running && property:ro.boot.wlan_ath12k=1
+    stop vendor.cnss_diag
+
 on init && property:ro.boot.apex.early_adbd=true
     mkdir /config/usb_gadget/g1 0770 system usb
     mkdir /config/usb_gadget/g1/strings/0x409 0770 system usb

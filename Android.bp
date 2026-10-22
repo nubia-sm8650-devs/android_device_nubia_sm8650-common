@@ -48,6 +48,34 @@ install_symlink {
     symlink_target: "/vendor/firmware/gmu_gen70900.bin",
 }
 
+install_symlink {
+    name: "firmware_ath12k_WCN7850_hw2.0_amss.bin_symlink",
+    vendor: true,
+    installed_location: "firmware/ath12k/WCN7850/hw2.0/amss.bin",
+    symlink_target: "/vendor/firmware_mnt/image/kiwi/amss20.bin",
+}
+
+install_symlink {
+    name: "firmware_ath12k_WCN7850_hw2.0_board.bin_symlink",
+    vendor: true,
+    installed_location: "firmware/ath12k/WCN7850/hw2.0/board.bin",
+    symlink_target: "/vendor/firmware_mnt/image/kiwi/bdwlan.elf",
+}
+
+install_symlink {
+    name: "firmware_ath12k_WCN7850_hw2.0_m3.bin_symlink",
+    vendor: true,
+    installed_location: "firmware/ath12k/WCN7850/hw2.0/m3.bin",
+    symlink_target: "/vendor/firmware_mnt/image/kiwi/phy_ucode20.elf",
+}
+
+install_symlink {
+    name: "firmware_ath12k_WCN7850_hw2.0_regdb.bin_symlink",
+    vendor: true,
+    installed_location: "firmware/ath12k/WCN7850/hw2.0/regdb.bin",
+    symlink_target: "/vendor/firmware_mnt/image/kiwi/regdb.bin",
+}
+
 cc_library_shared {
     name: "libqti_c2_store_abi_check",
     vendor: true,
