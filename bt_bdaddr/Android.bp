@@ -1,0 +1,15 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+cc_binary {
+    name: "bt_bdaddr",
+    vendor: true,
+    srcs: ["bt_bdaddr.c"],
+    shared_libs: ["liblog"],
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+}
