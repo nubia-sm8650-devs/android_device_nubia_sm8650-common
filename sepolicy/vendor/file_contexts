@@ -91,6 +91,9 @@
 /sys/devices/virtual/input/input[0-9]+/timing_budget       u:object_r:vendor_sysfs_laser:s0
 /sys/devices/virtual/input/input[0-9]+/set_delay_ms        u:object_r:vendor_sysfs_laser:s0
 
+# FastRPC
+/(odm|vendor/odm)/lib(64)?/lib[acs]dsprpc\.so    u:object_r:same_process_hal_file:s0
+
 # Fingerprint
 /dev/goodix_fp                                                                     u:object_r:fingerprint_device:s0
 /data/vendor/goodix(/.*)?                                                          u:object_r:fingerprint_vendor_data_file:s0

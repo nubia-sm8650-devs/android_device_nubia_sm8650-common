@@ -159,6 +159,17 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.fastboot-service.example_recovery
 
+# FastRPC
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_SOONG_NAMESPACES += \
+    vendor/qcom/opensource/fastrpc
+
+PRODUCT_PACKAGES += \
+    libadsprpc.upstream \
+    libcdsprpc.upstream \
+    libsdsprpc.upstream
+endif
+
 # Fingerprint
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint-service.nubia_sm8650
