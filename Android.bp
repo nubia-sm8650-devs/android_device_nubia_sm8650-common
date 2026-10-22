@@ -27,6 +27,27 @@ install_symlink {
     symlink_target: "/mnt/vendor/persist/smartpa_cali_data/aw_cali.bin",
 }
 
+install_symlink {
+    name: "firmware_qcom_gen70900_sqe.fw_symlink",
+    vendor: true,
+    installed_location: "firmware/qcom/gen70900_sqe.fw",
+    symlink_target: "/vendor/firmware/gen70900_sqe.fw",
+}
+
+install_symlink {
+    name: "firmware_qcom_gen70900_zap.mbn_symlink",
+    vendor: true,
+    installed_location: "firmware/qcom/gen70900_zap.mbn",
+    symlink_target: "/vendor/firmware/gen70900_zap.mbn",
+}
+
+install_symlink {
+    name: "firmware_qcom_gmu_gen70900.bin_symlink",
+    vendor: true,
+    installed_location: "firmware/qcom/gmu_gen70900.bin",
+    symlink_target: "/vendor/firmware/gmu_gen70900.bin",
+}
+
 cc_library_shared {
     name: "libqti_c2_store_abi_check",
     vendor: true,

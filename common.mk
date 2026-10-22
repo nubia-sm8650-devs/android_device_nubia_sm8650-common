@@ -157,6 +157,14 @@ PRODUCT_PACKAGES += \
     gps.conf \
     izat.conf
 
+# GPU
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_PACKAGES += \
+    firmware_qcom_gen70900_sqe.fw_symlink \
+    firmware_qcom_gen70900_zap.mbn_symlink \
+    firmware_qcom_gmu_gen70900.bin_symlink
+endif
+
 # Health
 PRODUCT_PACKAGES += \
     android.hardware.health-service.qti \
