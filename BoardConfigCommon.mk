@@ -117,7 +117,8 @@ BOARD_KERNEL_CMDLINE += \
     qcom_ice.use_wrapped_keys=1 \
     firmware_class.path=/firmware/image \
     console=tty0 \
-    console_msg_format=syslog
+    console_msg_format=syslog \
+    printk.devkmsg=on
 
 BOARD_BOOTCONFIG += \
     androidboot.apex.early_adbd=true \
