@@ -118,11 +118,13 @@ BOARD_KERNEL_CMDLINE += \
     firmware_class.path=/firmware/image \
     console=tty0 \
     console_msg_format=syslog \
-    printk.devkmsg=on
+    printk.devkmsg=on \
+    pstore.backend=ramoops
 
 BOARD_BOOTCONFIG += \
     androidboot.apex.early_adbd=true \
     androidboot.bootdevice_parent=soc@0 \
+    androidboot.init_fatal_reboot_target=recovery \
     androidboot.modules_builtin=1 \
     androidboot.qcomtee=1 \
     androidboot.selinux=permissive \
