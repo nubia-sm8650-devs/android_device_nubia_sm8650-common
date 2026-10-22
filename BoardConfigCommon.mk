@@ -120,6 +120,7 @@ BOARD_KERNEL_CMDLINE += \
 
 BOARD_BOOTCONFIG += \
     androidboot.bootdevice_parent=soc@0 \
+    androidboot.qcomtee=1 \
     androidboot.selinux=permissive \
     androidboot.usbcontroller=a600000.usb
 
