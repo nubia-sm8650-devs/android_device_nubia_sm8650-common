@@ -90,6 +90,10 @@ on early-init
     # Load WIGIG platform driver
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules msm_11ad_proxy
 
+on early-init && property:ro.boot.qcomtee=1
+    # qseecomd waits for this node but reaches QTEE through libminkdescriptor.
+    symlink /dev/null /dev/smcinvoke
+
 on init
 
     # Support legacy paths
