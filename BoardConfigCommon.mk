@@ -116,6 +116,7 @@ BOARD_KERNEL_CMDLINE += \
     pd_ignore_unused \
     qcom_ice.use_wrapped_keys=1 \
     firmware_class.path=/firmware/image \
+    msm.separate_gpu_kms=1 \
     console=tty0 \
     console_msg_format=syslog \
     printk.devkmsg=on \
