@@ -123,6 +123,7 @@ BOARD_KERNEL_CMDLINE += \
 BOARD_BOOTCONFIG += \
     androidboot.apex.early_adbd=true \
     androidboot.bootdevice_parent=soc@0 \
+    androidboot.modules_builtin=1 \
     androidboot.qcomtee=1 \
     androidboot.selinux=permissive \
     androidboot.usbcontroller=a600000.usb
