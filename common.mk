@@ -306,6 +306,15 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     vendor.qti.qspa-service
 
+# RMTFS
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_SOONG_NAMESPACES += \
+    vendor/qcom/opensource/rmtfs
+
+PRODUCT_PACKAGES += \
+    rmtfs
+endif
+
 # Rootdir
 PRODUCT_PACKAGES += \
     fstab.qcom \

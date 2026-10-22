@@ -102,6 +102,18 @@ on init && property:ro.boot.dma_heap_aliases=1
     symlink /dev/dma_heap/system /dev/dma_heap/qcom,system
     symlink /dev/dma_heap/system-uncached /dev/dma_heap/qcom,system-uncached
 
+on boot && property:ro.boot.rmtfs=1
+    start vendor.rmtfs
+
+on property:init.svc.vendor.rmt_storage=running && property:ro.boot.rmtfs=1
+    stop vendor.rmt_storage
+
+service vendor.rmtfs /vendor/bin/rmtfs -P -o /dev/block/bootdevice/by-name
+    class core
+    user root
+    disabled
+    stdio_to_kmsg
+
 on init && property:ro.boot.apex.early_adbd=true
     mkdir /config/usb_gadget/g1 0770 system usb
     mkdir /config/usb_gadget/g1/strings/0x409 0770 system usb

@@ -129,6 +129,7 @@ BOARD_BOOTCONFIG += \
     androidboot.init_fatal_reboot_target=recovery \
     androidboot.modules_builtin=1 \
     androidboot.qcomtee=1 \
+    androidboot.rmtfs=1 \
     androidboot.selinux=permissive \
     androidboot.usbcontroller=a600000.usb
 
