@@ -131,7 +131,8 @@ BOARD_KERNEL_CMDLINE += \
     console=tty0 \
     console_msg_format=syslog \
     printk.devkmsg=on \
-    pstore.backend=ramoops
+    pstore.backend=ramoops \
+    reboot=warm
 
 BOARD_BOOTCONFIG += \
     androidboot.apex.early_adbd=true \
