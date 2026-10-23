@@ -219,7 +219,6 @@ persist.sys.sf.native_mode=258
 ro.hardware.egl=adreno
 ro.hardware.vulkan=adreno
 ro.opengles.version=196610
-vendor.gralloc.disable_ubwc=0
 vendor.gralloc.enable_logs=0
 
 # Incremental FS

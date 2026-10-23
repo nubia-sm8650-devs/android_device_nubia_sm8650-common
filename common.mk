@@ -164,6 +164,14 @@ PRODUCT_COPY_FILES += \
 
 $(call soong_config_set_bool,qtidisplay,legacy_pphwresourceinfo,true)
 
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_VENDOR_PROPERTIES += \
+    vendor.gralloc.disable_ubwc=1
+else
+PRODUCT_VENDOR_PROPERTIES += \
+    vendor.gralloc.disable_ubwc=0
+endif
+
 # DRM
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey
