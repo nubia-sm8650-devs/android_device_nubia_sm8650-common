@@ -247,10 +247,12 @@ PRODUCT_PACKAGES += \
 $(call soong_config_set,lineage_health,charging_control_charging_path,/sys/class/qcom-battery/battery_charging_enabled)
 
 # LiveDisplay
+ifneq ($(TARGET_KERNEL_MAINLINE),true)
 PRODUCT_PACKAGES += \
     vendor.lineage.livedisplay-service.sysfs
 
 $(call soong_config_set_bool,livedisplay_sysfs,enable_se,true)
+endif
 
 # Memtrack
 PRODUCT_PACKAGES += \
