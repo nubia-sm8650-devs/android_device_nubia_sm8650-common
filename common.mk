@@ -215,6 +215,12 @@ PRODUCT_PACKAGES += \
 
 # GPU
 ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_SOONG_NAMESPACES += \
+    vendor/qcom/opensource/gsl-drm
+
+PRODUCT_PACKAGES += \
+    libgsl.upstream
+
 PRODUCT_PACKAGES += \
     firmware_qcom_gen70900_sqe.fw_symlink \
     firmware_qcom_gen70900_zap.mbn_symlink \

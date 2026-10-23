@@ -100,6 +100,9 @@
 /vendor/bin/hw/android\.hardware\.biometrics\.fingerprint-service\.nubia_sm8650    u:object_r:hal_fingerprint_default_exec:s0
 /mnt/vendor/persist/fingerprint(/.*)?                                              u:object_r:vendor_persist_fingerprint_file:s0
 
+# GPU
+/(odm|vendor/odm)/lib(64)?/libgsl\.so    u:object_r:same_process_hal_file:s0
+
 # Secure Element
 /vendor/bin/hw/android\.hardware\.secure_element-service-aidl    u:object_r:hal_secure_element_default_exec:s0
 
