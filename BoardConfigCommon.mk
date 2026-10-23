@@ -127,6 +127,7 @@ BOARD_KERNEL_CMDLINE += \
     qcom_ice.use_wrapped_keys=1 \
     firmware_class.path=/firmware/image \
     msm.separate_gpu_kms=1 \
+    msm.enable_preemption=0 \
     console=tty0 \
     console_msg_format=syslog \
     printk.devkmsg=on \
