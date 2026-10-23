@@ -138,6 +138,7 @@ BOARD_BOOTCONFIG += \
     androidboot.bt_hci_qca=1 \
     androidboot.dma_heap_aliases=1 \
     androidboot.init_fatal_reboot_target=recovery \
+    androidboot.kernel_pd_mapper=1 \
     androidboot.modules_builtin=1 \
     androidboot.qcomtee=1 \
     androidboot.rmtfs=1 \
