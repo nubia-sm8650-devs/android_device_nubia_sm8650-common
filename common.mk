@@ -482,12 +482,16 @@ endif
 
 # WiFi
 PRODUCT_PACKAGES += \
-    android.hardware.wifi-service \
     hostapd \
-    libwifi-hal-qcom \
     libwpa_client \
     wpa_supplicant \
     wpa_supplicant.conf
+
+ifneq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_PACKAGES += \
+    android.hardware.wifi-service \
+    libwifi-hal-qcom
+endif
 
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(COMMON_PATH)/wifi,$(TARGET_COPY_OUT_VENDOR)/etc/wifi)
