@@ -397,10 +397,11 @@ subsystem mem_buf_vm
 
 # permsissions for ST54J NFC
 /dev/st21nfc              0660   nfc        system
-/dev/st54spi              0660   nfc        system
+/dev/st54spi              0660   secure_element secure_element
 
 # eSE permissions
 /dev/st54spi_gpio         0660   system     system
+/dev/spidev1.0            0660   secure_element secure_element
 
 # UIO devices
 /dev/uio0                 0660   system     system
