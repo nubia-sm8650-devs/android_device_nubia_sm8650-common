@@ -166,6 +166,7 @@ $(call soong_config_set_bool,qtidisplay,legacy_pphwresourceinfo,true)
 
 ifeq ($(TARGET_KERNEL_MAINLINE),true)
 PRODUCT_VENDOR_PROPERTIES += \
+    ro.surface_flinger.set_idle_timer_ms=1000 \
     vendor.gralloc.disable_ubwc=1
 else
 PRODUCT_VENDOR_PROPERTIES += \
