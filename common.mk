@@ -101,15 +101,8 @@ PRODUCT_PACKAGES += \
     android.hardware.bluetooth-service.default \
     bt_bdaddr \
     firmware_qca_symlink
+endif
 
-PRODUCT_VENDOR_PROPERTIES += \
-    persist.bluetooth.a2dp_offload.disabled=true \
-    ro.bluetooth.a2dp_offload.supported=false
-
-PRODUCT_SYSTEM_EXT_PROPERTIES += \
-    persist.bluetooth.leaudio_offload.disabled=true \
-    ro.bluetooth.leaudio_offload.supported=false
-else
 PRODUCT_VENDOR_PROPERTIES += \
     persist.bluetooth.a2dp_offload.disabled=false \
     ro.bluetooth.a2dp_offload.supported=true
@@ -117,7 +110,6 @@ PRODUCT_VENDOR_PROPERTIES += \
 PRODUCT_SYSTEM_EXT_PROPERTIES += \
     persist.bluetooth.leaudio_offload.disabled=false \
     ro.bluetooth.leaudio_offload.supported=true
-endif
 
 # Boot control
 PRODUCT_PACKAGES += \
