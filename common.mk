@@ -247,6 +247,13 @@ PRODUCT_PACKAGES += \
 $(call soong_config_set_bool,livedisplay_sysfs,enable_se,true)
 endif
 
+# Logging
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_SYSTEM_EXT_PROPERTIES += \
+    persist.logd.audit.rate=0 \
+    persist.logd.size=16M
+endif
+
 # Memtrack
 PRODUCT_PACKAGES += \
     vendor.qti.hardware.memtrack-service

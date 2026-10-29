@@ -133,7 +133,10 @@ BOARD_KERNEL_CMDLINE += \
     console_msg_format=syslog \
     printk.devkmsg=on \
     pstore.backend=ramoops \
-    reboot=warm
+    reboot=warm \
+    sysctl.net.core.wmem_default=16777216 \
+    audit_backlog_limit=8192 \
+    log_buf_len=16M
 
 BOARD_BOOTCONFIG += \
     androidboot.apex.early_adbd=true \

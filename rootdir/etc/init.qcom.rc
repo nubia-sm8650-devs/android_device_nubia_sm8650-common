@@ -101,6 +101,12 @@ on early-init && property:ro.boot.modules_builtin=1
 on post-fs && property:ro.boot.modules_builtin=1
     exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -a -d /vendor/lib/modules camera
 
+on init && property:ro.boot.modules_builtin=1
+    # logdw keeps the queue length it was created with, and init.rc
+    # sets 2400 right before it first starts logd.
+    write /proc/sys/net/unix/max_dgram_qlen 65536
+    restart logd
+
 on init && property:ro.boot.dma_heap_aliases=1
     symlink /dev/dma_heap/system /dev/dma_heap/qcom,system
     symlink /dev/dma_heap/system-uncached /dev/dma_heap/qcom,system-uncached
