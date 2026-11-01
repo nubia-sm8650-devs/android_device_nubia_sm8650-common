@@ -136,6 +136,7 @@ BOARD_KERNEL_CMDLINE += \
     reboot=warm \
     softlockup_panic=1 \
     nmi_watchdog=panic \
+    irqchip.gicv3_pseudo_nmi=1 \
     sysctl.kernel.panic_on_rcu_stall=1 \
     sysctl.net.core.wmem_default=16777216 \
     audit_backlog_limit=8192 \
