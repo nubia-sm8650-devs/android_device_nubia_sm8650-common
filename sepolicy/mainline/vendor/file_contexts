@@ -86,5 +86,8 @@
 # GPU
 /(odm|vendor/odm)/lib(64)?/libgsl\.so    u:object_r:same_process_hal_file:s0
 
+# Media
+/vendor/bin/hw/android\.hardware\.media\.c2-service-v4l2    u:object_r:mediacodec_exec:s0
+
 # Secure Element
 /dev/spidev1\.0    u:object_r:secure_element_device:s0

@@ -123,6 +123,29 @@ $(call soong_config_set_bool,camera,override_format_from_reserved,true)
 PRODUCT_PACKAGES += \
     libqti_c2_store_abi_check
 
+ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_SOONG_NAMESPACES += \
+    external/v4l2_codec2
+
+PRODUCT_PACKAGES += \
+    android.hardware.media.c2-extended-seccomp_policy \
+    android.hardware.media.c2-service-v4l2 \
+    android.hardware.media.c2-service-v4l2.sm8650.rc \
+    libc2plugin_store.vendor \
+    media_codecs_c2_v4l2.xml
+
+PRODUCT_VENDOR_PROPERTIES += \
+    debug.stagefright.c2-poolmask=0x1f50000 \
+    media.c2.hal.selection=aidl \
+    ro.vendor.v4l2_codec2.decoder.supported.av1=true \
+    ro.vendor.v4l2_codec2.decoder.supported.h264=true \
+    ro.vendor.v4l2_codec2.decoder.supported.hevc=true \
+    ro.vendor.v4l2_codec2.decoder.supported.vp9=true \
+    ro.vendor.v4l2_codec2.decode_concurrent_instances=16 \
+    ro.vendor.v4l2_codec2.encoder.supported.h264=true \
+    ro.vendor.v4l2_codec2.encode_concurrent_instances=16
+endif
+
 # Data
 ifeq ($(TARGET_KERNEL_MAINLINE),true)
 PRODUCT_SYSTEM_EXT_PROPERTIES += \

@@ -1,0 +1,25 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+
+prebuilt_etc {
+    name: "android.hardware.media.c2-extended-seccomp_policy",
+    vendor: true,
+    sub_dir: "seccomp_policy",
+    src: "android.hardware.media.c2-extended-seccomp_policy-arm64",
+}
+
+prebuilt_etc {
+    name: "android.hardware.media.c2-service-v4l2.sm8650.rc",
+    vendor: true,
+    sub_dir: "init",
+    src: "android.hardware.media.c2-service-v4l2.sm8650.rc",
+}
+
+prebuilt_etc {
+    name: "media_codecs_c2_v4l2.xml",
+    vendor: true,
+    src: "media_codecs_c2.xml",
+    filename: "media_codecs_c2.xml",
+}
