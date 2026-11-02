@@ -94,5 +94,9 @@
 # QTEE
 /dev/tee[0-9]+    u:object_r:tee_device:s0
 
+# Remote storage
+/dev/qcom_rmtfs_mem[0-9]+    u:object_r:vendor_rmtfs_device:s0
+/vendor/bin/rmtfs    u:object_r:vendor_rmtfs_exec:s0
+
 # Secure Element
 /dev/spidev1\.0    u:object_r:secure_element_device:s0

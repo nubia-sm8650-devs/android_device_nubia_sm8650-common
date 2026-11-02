@@ -1,0 +1,15 @@
+type vendor_rmtfs, domain;
+type vendor_rmtfs_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(vendor_rmtfs)
+
+allow vendor_rmtfs self:capability net_admin;
+allow vendor_rmtfs self:qipcrtr_socket create_socket_perms_no_ioctl;
+
+allow vendor_rmtfs kmsg_device:chr_file w_file_perms;
+allow vendor_rmtfs vendor_rmtfs_device:chr_file rw_file_perms;
+r_dir_file(vendor_rmtfs, vendor_sysfs_rmtfs)
+
+allow vendor_rmtfs block_device:dir r_dir_perms;
+allow vendor_rmtfs block_device:lnk_file r_file_perms;
+allow vendor_rmtfs vendor_modem_efs_partition_device:blk_file rw_file_perms;

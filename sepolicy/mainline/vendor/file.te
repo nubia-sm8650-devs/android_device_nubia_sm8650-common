@@ -1,0 +1,2 @@
+type vendor_rmtfs_device, dev_type;
+type vendor_sysfs_rmtfs, fs_type, sysfs_type;
