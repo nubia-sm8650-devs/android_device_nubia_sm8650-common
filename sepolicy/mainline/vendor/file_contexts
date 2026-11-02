@@ -91,5 +91,8 @@
 # Media
 /vendor/bin/hw/android\.hardware\.media\.c2-service-v4l2    u:object_r:mediacodec_exec:s0
 
+# QTEE
+/dev/tee[0-9]+    u:object_r:tee_device:s0
+
 # Secure Element
 /dev/spidev1\.0    u:object_r:secure_element_device:s0
