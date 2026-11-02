@@ -1,0 +1,10 @@
+type vendor_bt_bdaddr, domain;
+type vendor_bt_bdaddr_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(vendor_bt_bdaddr)
+
+allow vendor_bt_bdaddr self:capability net_admin;
+allow vendor_bt_bdaddr self:bluetooth_socket create_socket_perms_no_ioctl;
+
+allow vendor_bt_bdaddr mnt_vendor_file:dir search;
+allow vendor_bt_bdaddr mnt_vendor_file:file r_file_perms;
