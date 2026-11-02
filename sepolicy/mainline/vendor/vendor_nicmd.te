@@ -1,0 +1,2 @@
+allow vendor_nicmd self:netlink_route_socket nlmsg;
+allowxperm vendor_nicmd self:netlink_route_socket nlmsg { RTM_NEWLINK RTM_GETLINK RTM_NEWADDR };

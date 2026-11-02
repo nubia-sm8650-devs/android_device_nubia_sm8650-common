@@ -1,0 +1,2 @@
+allow vendor_qms self:netlink_route_socket nlmsg;
+allowxperm vendor_qms self:netlink_route_socket nlmsg { RTM_GETLINK RTM_GETNEIGH };
