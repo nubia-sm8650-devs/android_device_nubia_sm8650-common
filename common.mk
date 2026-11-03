@@ -148,6 +148,12 @@ endif
 
 # Data
 ifeq ($(TARGET_KERNEL_MAINLINE),true)
+PRODUCT_PACKAGES += \
+    libnicm_shim
+
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/data/shsusrd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/shsusrd.rc
+
 PRODUCT_SYSTEM_EXT_PROPERTIES += \
     persist.vendor.data.mode=disabled
 else

@@ -1,0 +1,4 @@
+service vendor.nicmd /system/vendor/bin/nicmd
+    override
+    class main
+    setenv LD_PRELOAD /vendor/lib64/libnicm_shim.so

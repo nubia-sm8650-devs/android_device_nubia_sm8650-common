@@ -1,0 +1,19 @@
+// SPDX-FileCopyrightText: 2026 The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+
+cc_library_shared {
+    name: "libnicm_shim",
+    vendor: true,
+    compile_multilib: "64",
+    srcs: ["NicmShim.cpp"],
+    shared_libs: [
+        "libdl",
+        "libnicm_internal",
+    ],
+    init_rc: ["nicmd_mainline.rc"],
+    cflags: [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+    ],
+}

@@ -4,6 +4,9 @@
 //
 
 soong_namespace {
+    imports: [
+        "vendor/nubia/sm8650-common",
+    ],
 }
 
 install_symlink {
