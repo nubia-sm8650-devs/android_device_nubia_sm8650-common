@@ -130,6 +130,7 @@ BOARD_KERNEL_CMDLINE += \
     msm.separate_gpu_kms=1 \
     msm.enable_preemption=0 \
     console=tty0 \
+    no_console_suspend \
     console_msg_format=syslog \
     printk.devkmsg=on \
     pstore.backend=ramoops \
