@@ -126,7 +126,7 @@ BOARD_KERNEL_CMDLINE += \
     pd_ignore_unused \
     qcom_ice.use_wrapped_keys=1 \
     firmware_class.path=/firmware/image \
-    firmware_class.search_path=/vendor/firmware \
+    firmware_class.search_path=/vendor/firmware:/vendor/etc/acdbdata \
     msm.separate_gpu_kms=1 \
     msm.enable_preemption=0 \
     console=tty0 \
