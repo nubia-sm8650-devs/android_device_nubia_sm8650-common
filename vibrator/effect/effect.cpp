@@ -36,6 +36,7 @@
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(*(a)))
 
 #include "generated_effect.h"
+#include "ram_effect.h"
 
 static const int8_t primitive_0[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -80,11 +81,50 @@ static const struct effect_stream primitives[] = {
     },
 };
 
+static const struct {
+    uint32_t max_duration_ms;
+    struct effect_stream stream;
+} timed_effects[] = {
+    {
+        .max_duration_ms = 20,
+        .stream = {
+            .length = ARRAY_SIZE(ram_wave_3),
+            .play_rate_hz = 24000,
+            .data = ram_wave_3,
+        },
+    },
+
+    {
+        .max_duration_ms = 30,
+        .stream = {
+            .length = ARRAY_SIZE(ram_wave_2),
+            .play_rate_hz = 24000,
+            .data = ram_wave_2,
+        },
+    },
+
+    {
+        .max_duration_ms = 60,
+        .stream = {
+            .length = ARRAY_SIZE(ram_wave_1),
+            .play_rate_hz = 24000,
+            .data = ram_wave_1,
+        },
+    },
+};
+
 const struct effect_stream *get_effect_stream(uint32_t effect_id)
 {
     int i;
 
-    if ((effect_id & 0x8000) != 0) {
+    if ((effect_id & TIMED_ID_MASK) != 0) {
+        effect_id = effect_id & (TIMED_ID_MASK - 1);
+
+        for (i = 0; i < ARRAY_SIZE(timed_effects); i++) {
+            if (effect_id < timed_effects[i].max_duration_ms)
+                return &timed_effects[i].stream;
+        }
+    } else if ((effect_id & 0x8000) != 0) {
         effect_id = effect_id & 0x7fff;
 
         for (i = 0; i < ARRAY_SIZE(primitives); i++) {
