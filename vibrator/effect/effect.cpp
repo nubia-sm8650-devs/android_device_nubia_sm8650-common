@@ -113,6 +113,13 @@ static const struct {
     },
 };
 
+static const struct effect_stream loop_effect = {
+    .effect_id = LOOP_EFFECT_ID,
+    .length = ARRAY_SIZE(ram_wave_4),
+    .play_rate_hz = 24000,
+    .data = ram_wave_4,
+};
+
 const struct effect_stream *get_effect_stream(uint32_t effect_id)
 {
     int i;
@@ -124,6 +131,8 @@ const struct effect_stream *get_effect_stream(uint32_t effect_id)
             if (effect_id < timed_effects[i].max_duration_ms)
                 return &timed_effects[i].stream;
         }
+    } else if (effect_id == loop_effect.effect_id) {
+        return &loop_effect;
     } else if ((effect_id & 0x8000) != 0) {
         effect_id = effect_id & 0x7fff;
 
