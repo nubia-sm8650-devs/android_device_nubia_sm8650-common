@@ -42,22 +42,6 @@ static const int8_t primitive_0[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
 
-static const int8_t primitive_1[] = {
-    17,  34,  50,  65,  79,  92,  103, 112, 119, 124,
-    127, 127, 126, 122, 116, 108, 98,  86,  73,  58,
-    42,  26,  9,   -8,  -25, -41, -57, -72, -85, -97,
-    -108, -116, -122, -126, -127, -127, -125, -120,
-    -113, -104, -93,  -80, -66, -51, -35, -18, -1,
-};
-
-static const int8_t primitive_2[] = {
-    17,  34,  50,  65,  79,  92,  103, 112, 119, 124,
-    127, 127, 126, 122, 116, 108, 98,  86,  73,  58,
-    42,  26,  9,   -8,  -25, -41, -57, -72, -85, -97,
-    -108, -116, -122, -126, -127, -127, -125, -120,
-    -113, -104, -93,  -80, -66, -51, -35, -18, -1,
-};
-
 static const struct effect_stream primitives[] = {
     {
         .effect_id = 0,
@@ -68,16 +52,23 @@ static const struct effect_stream primitives[] = {
 
     {
         .effect_id = 1,
-        .length = ARRAY_SIZE(primitive_1),
-        .play_rate_hz = 8000,
-        .data = primitive_1,
+        .length = ARRAY_SIZE(effect_1_8_strong),
+        .play_rate_hz = 24000,
+        .data = effect_1_8_strong,
     },
 
     {
         .effect_id = 2,
-        .length = ARRAY_SIZE(primitive_2),
-        .play_rate_hz = 8000,
-        .data = primitive_2,
+        .length = ARRAY_SIZE(effect_1_6_strong),
+        .play_rate_hz = 24000,
+        .data = effect_1_6_strong,
+    },
+
+    {
+        .effect_id = 7,
+        .length = ARRAY_SIZE(effect_1_10_strong),
+        .play_rate_hz = 24000,
+        .data = effect_1_10_strong,
     },
 };
 
