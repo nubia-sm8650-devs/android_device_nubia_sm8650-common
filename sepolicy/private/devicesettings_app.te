@@ -1,4 +1,4 @@
-type devicesettings_app, domain;
+type devicesettings_app, domain, coredomain;
 app_domain(devicesettings_app)
 
 allow devicesettings_app {
