@@ -82,11 +82,6 @@ void FingerprintEngine::notifyFodUi(bool ready) {
 
     LOG(INFO) << "fodUiReady: " << ready;
 
-    int error = mDevice->sendCustomizedCommand(mDevice, FOD_UI_READY_COMMAND, ready);
-    if (error) {
-        LOG(ERROR) << "sendCustomizedCommand failed: " << error;
-    }
-
     std::lock_guard<std::mutex> lock(mFodUiMutex);
 
     mFodUiReady = ready;
@@ -94,6 +89,12 @@ void FingerprintEngine::notifyFodUi(bool ready) {
     if (ready && mFingerDownPending) {
         sendFingerDownLocked();
     }
+
+    int error = mDevice->sendCustomizedCommand(mDevice, FOD_UI_READY_COMMAND, ready);
+    if (error) {
+        LOG(ERROR) << "sendCustomizedCommand failed: " << error;
+    }
+
 }
 
 void FingerprintEngine::fodUiThreadLoop() {
