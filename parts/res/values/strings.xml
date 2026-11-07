@@ -11,6 +11,8 @@
     <string name="fan_control_summary">Control the device cooling fan</string>
     <string name="fan_enable_title">Enable Fan</string>
     <string name="fan_enable_summary">Turn the cooling fan on or off</string>
+    <string name="fan_enable_while_charging_title">Enable fan while charging</string>
+    <string name="fan_enable_while_charging_summary">Automatically turn the fan on when charging and off when unplugged</string>
     <string name="fan_speed_title">Fan Speed</string>
     <string name="fan_speed_summary">Adjust fan speed level</string>
 

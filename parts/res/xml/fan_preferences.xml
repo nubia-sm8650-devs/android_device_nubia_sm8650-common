@@ -12,6 +12,12 @@
         android:summary="@string/fan_enable_summary"
         android:defaultValue="false" />
 
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="fan_enable_while_charging"
+        android:title="@string/fan_enable_while_charging_title"
+        android:summary="@string/fan_enable_while_charging_summary"
+        android:defaultValue="false" />
+
     <com.android.settingslib.widget.SliderPreference
         android:key="fan_speed_level"
         android:title="@string/fan_speed_title"

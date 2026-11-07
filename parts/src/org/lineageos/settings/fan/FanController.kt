@@ -12,6 +12,7 @@ object FanController {
 
     const val KEY_FAN_ENABLE = "fan_enable"
     const val KEY_FAN_SPEED = "fan_speed_level"
+    const val KEY_FAN_ENABLE_WHILE_CHARGING = "fan_enable_while_charging"
     const val KEY_FAN_SPEED_RECEIVER = "fan_speed_receiver"
 
     const val FAN_ENABLE_NODE = "/sys/kernel/fan/fan_enable"
@@ -57,5 +58,34 @@ object FanController {
         val fanSpeed = getInt(context, KEY_FAN_SPEED, FAN_DEFAULT_SPEED)
 
         applySettings(context, fanEnabled, fanSpeed)
+    }
+
+    /*
+     * Check whether the fan should be enabled while charging
+     * @return true if the fan should be controlled by charging state
+     */
+    fun isEnabledWhileCharging(context: Context): Boolean {
+        return getInt(context, KEY_FAN_ENABLE_WHILE_CHARGING, 0) == 1
+    }
+
+    /*
+     * Apply fan state based on charging status
+     * @return puts the value in place
+     */
+    fun applyChargingState(context: Context, charging: Boolean) {
+        if (!isEnabledWhileCharging(context)) return
+
+        setFanEnabled(context, charging)
+        if (!charging) return
+
+        val saved = getInt(context, KEY_FAN_SPEED, FAN_DEFAULT_SPEED)
+        if (saved >= FAN_MIN_SPEED) {
+            putInt(context, KEY_FAN_SPEED_RECEIVER, saved)
+        }
+
+        if (context.getSystemService(android.os.PowerManager::class.java).isInteractive) {
+            val speed = getInt(context, KEY_FAN_SPEED_RECEIVER, FAN_DEFAULT_SPEED)
+            setFanSpeed(context, speed)
+        }
     }
 }
