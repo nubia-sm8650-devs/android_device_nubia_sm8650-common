@@ -12,6 +12,7 @@ object FanController {
 
     const val KEY_FAN_ENABLE = "fan_enable"
     const val KEY_FAN_SPEED = "fan_speed_level"
+    const val KEY_FAN_SPEED_RECEIVER = "fan_speed_receiver"
 
     const val FAN_ENABLE_NODE = "/sys/kernel/fan/fan_enable"
     const val FAN_SPEED_NODE = "/sys/kernel/fan/fan_speed_level"
