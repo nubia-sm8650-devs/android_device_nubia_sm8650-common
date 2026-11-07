@@ -5,6 +5,9 @@
 
 package org.lineageos.settings.fan
 
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.BatteryManager
 import android.os.Bundle
 import androidx.preference.Preference
 import com.android.settingslib.widget.MainSwitchPreference
@@ -28,6 +31,14 @@ class FanFragment : SettingsBasePreferenceFragment(), Preference.OnPreferenceCha
         mSwitchBar =
             findPreference<MainSwitchPreference>(FanController.KEY_FAN_ENABLE)!!.apply {
                 setChecked(fanEnabled)
+                onPreferenceChangeListener = this@FanFragment
+            }
+
+        findPreference<androidx.preference.TwoStatePreference>(
+                FanController.KEY_FAN_ENABLE_WHILE_CHARGING
+            )
+            ?.apply {
+                isChecked = FanController.isEnabledWhileCharging(requireContext())
                 onPreferenceChangeListener = this@FanFragment
             }
 
@@ -56,6 +67,26 @@ class FanFragment : SettingsBasePreferenceFragment(), Preference.OnPreferenceCha
 
                 mFanSpeedBar.isEnabled = isEnabled
                 FanController.applySettings(requireContext(), isEnabled, speed)
+                true
+            }
+
+            FanController.KEY_FAN_ENABLE_WHILE_CHARGING -> {
+                val enabled = newValue as Boolean
+                putInt(
+                    requireContext(),
+                    FanController.KEY_FAN_ENABLE_WHILE_CHARGING,
+                    if (enabled) 1 else 0,
+                )
+
+                val plugged =
+                    requireContext()
+                        .registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+                        ?.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) ?: 0
+                if (enabled) {
+                    FanController.applyChargingState(requireContext(), plugged != 0)
+                } else {
+                    FanController.restoreSettings(requireContext())
+                }
                 true
             }
 

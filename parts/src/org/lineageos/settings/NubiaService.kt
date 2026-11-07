@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.BatteryManager
 import android.os.IBinder
 import org.lineageos.settings.fan.FanController
 import org.lineageos.settings.utils.*
@@ -20,6 +21,9 @@ class NubiaService : Service() {
         object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 when (intent.action) {
+                    Intent.ACTION_POWER_CONNECTED -> FanController.applyChargingState(context, true)
+                    Intent.ACTION_POWER_DISCONNECTED ->
+                        FanController.applyChargingState(context, false)
                     Intent.ACTION_SCREEN_OFF -> {
                         if (getInt(context, FanController.KEY_FAN_ENABLE, 0) == 0) return
                         val speed =
@@ -53,8 +57,15 @@ class NubiaService : Service() {
             IntentFilter().apply {
                 addAction(Intent.ACTION_SCREEN_OFF)
                 addAction(Intent.ACTION_SCREEN_ON)
+                addAction(Intent.ACTION_POWER_CONNECTED)
+                addAction(Intent.ACTION_POWER_DISCONNECTED)
             },
         )
+
+        val plugged =
+            registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+                ?.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) ?: 0
+        FanController.applyChargingState(this, plugged != 0)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int) = START_STICKY
