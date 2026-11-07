@@ -17,6 +17,7 @@ class BootReceiver : BroadcastReceiver() {
         if (Intent.ACTION_BOOT_COMPLETED == intent.action) {
             FanController.restoreSettings(context)
             TriggerController.restoreSettings(context)
+            context.startService(Intent(context, NubiaService::class.java))
         }
     }
 }
