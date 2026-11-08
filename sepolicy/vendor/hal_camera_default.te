@@ -10,3 +10,5 @@ allow hal_camera_default input_device:chr_file rw_file_perms;
 allow hal_camera_default vendor_sysfs_laser:file rw_file_perms;
 
 binder_call(hal_camera_default, platform_app_all)
+
+get_prop(hal_camera_default, vendor_zte_prop)
