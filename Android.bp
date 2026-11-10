@@ -109,3 +109,13 @@ cc_library_shared {
     ],
     srcs: ["surface_abi_check/abi_check.cpp"],
 }
+
+filegroup {
+    name: "sm8650-common-resource-manager",
+    srcs: ["audio/resourcemanager_pineapple_mtp.xml"],
+}
+
+filegroup {
+    name: "sm8650-common-usecase-kv",
+    srcs: ["audio/usecaseKvManager.xml"],
+}
