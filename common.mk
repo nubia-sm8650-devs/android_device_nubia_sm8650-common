@@ -220,7 +220,9 @@ endif
 PRODUCT_PACKAGES += \
     android.hardware.biometrics.fingerprint-service.nubia_sm8650
 
+ifneq ($(TARGET_KERNEL_MAINLINE),true)
 $(call soong_config_set,surfaceflinger,udfps_lib,//$(COMMON_PATH):libudfps_extension.sm8650)
+endif
 
 # GNSS
 PRODUCT_PACKAGES += \
