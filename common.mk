@@ -186,6 +186,8 @@ PRODUCT_COPY_FILES += \
 $(call soong_config_set_bool,qtidisplay,legacy_pphwresourceinfo,true)
 
 ifeq ($(TARGET_KERNEL_MAINLINE),true)
+$(call soong_config_set_bool,qtidisplay,upstream_msm,true)
+
 PRODUCT_PACKAGES += \
     libsdmextension.upstream
 
