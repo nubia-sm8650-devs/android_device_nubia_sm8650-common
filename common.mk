@@ -215,7 +215,8 @@ PRODUCT_SOONG_NAMESPACES += \
 PRODUCT_PACKAGES += \
     libadsprpc.upstream \
     libcdsprpc.upstream \
-    libsdsprpc.upstream
+    libsdsprpc.upstream \
+    vendor.qti.hardware.dsp-service
 endif
 
 # Fingerprint
