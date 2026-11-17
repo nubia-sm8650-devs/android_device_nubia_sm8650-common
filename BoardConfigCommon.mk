@@ -162,7 +162,7 @@ TARGET_KERNEL_CONFIG := \
     vendor/zte_sm8650.config
 
 TARGET_KERNEL_SOURCE := kernel/nubia/sm8650-mainline
-TARGET_KERNEL_OUT_SUFFIX := _MAINLINE
+TARGET_KERNEL_OUT_SUBDIR := mainline
 TARGET_KERNEL_EXT_MODULE_ROOT := kernel/nubia/sm8650-modules
 TARGET_KERNEL_EXT_MODULES := \
     qcom/opensource/synx-kernel \
